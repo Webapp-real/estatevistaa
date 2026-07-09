@@ -1,49 +1,47 @@
+import { createClient } from '@/lib/supabase/server'
 import PropertyCard from '@/components/PropertyCard'
+import SearchBar from '@/components/SearchBar'
 
-const properties = [
-  {
-    title: 'Oceanview Villa',
-    location: 'Malibu, California',
-    price: '$1.2M',
-    beds: 4,
-    baths: 3,
-    sqft: 3200,
-    image: 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'Skyline Penthouse',
-    location: 'Miami, Florida',
-    price: '$980K',
-    beds: 3,
-    baths: 2,
-    sqft: 2400,
-    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=900&q=80',
-  },
-]
+export default async function Search({ 
+  searchParams 
+}: { 
+  searchParams: { location?: string, type?: string, minPrice?: string, maxPrice?: string } 
+}) {
+  const supabase = createClient()
+  let query = supabase.from('properties').select('*')
 
-export default function SearchPage() {
+  if (searchParams.location) {
+    query = query.ilike('location', `%${searchParams.location}%`)
+  }
+  if (searchParams.type && searchParams.type !== 'Any') {
+    query = query.eq('type', searchParams.type)
+  }
+  if (searchParams.minPrice) {
+    query = query.gte('price', Number(searchParams.minPrice))
+  }
+  if (searchParams.maxPrice) {
+    query = query.lte('price', Number(searchParams.maxPrice))
+  }
+
+  const { data: properties } = await query
+
   return (
-    <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">Property Search</p>
-          <h1 className="mt-2 text-4xl font-semibold text-slate-900">Find homes that match your taste</h1>
-        </div>
-        <div className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600">34 homes found</div>
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <h1 className="text-2xl font-bold mb-6">Search Listings</h1>
+      <div className="mb-8"><SearchBar /></div>
+      
+      <div className="flex justify-between items-center mb-6">
+        <p className="text-gray-600">{properties?.length || 0} properties found</p>
       </div>
 
-      <div className="mb-8 grid gap-4 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:grid-cols-4">
-        <input className="rounded-xl border border-slate-200 px-4 py-3" placeholder="Location" />
-        <select className="rounded-xl border border-slate-200 px-4 py-3"><option>Any Type</option></select>
-        <select className="rounded-xl border border-slate-200 px-4 py-3"><option>Any Price</option></select>
-        <button className="rounded-xl bg-sky-600 px-4 py-3 font-semibold text-white">Apply Filters</button>
-      </div>
-
-      <div className="grid gap-8 md:grid-cols-2">
-        {properties.map((property) => (
-          <PropertyCard key={property.title} property={property} />
+      <div className="grid md:grid-cols-3 gap-6">
+        {properties?.map((property) => (
+          <PropertyCard key={property.id} property={property} />
         ))}
+        {properties?.length === 0 && (
+          <p className="text-gray-600 col-span-3 text-center py-12">No properties match your search.</p>
+        )}
       </div>
-    </main>
+    </div>
   )
 }
