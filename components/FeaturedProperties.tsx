@@ -32,13 +32,15 @@ const properties = [
 
 export default function FeaturedProperties() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">Featured Homes</p>
-          <h2 className="mt-2 text-3xl font-semibold text-slate-900">Curated properties tailored to your lifestyle</h2>
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">Exclusive Collection</p>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">
+            Refined residences in the most sought-after neighborhoods.
+          </h2>
         </div>
-        <a href="/search" className="text-sm font-semibold text-sky-600 hover:text-sky-700">
+        <a href="/search" className="inline-flex items-center text-sm font-semibold text-sky-600 transition hover:text-sky-700">
           View all listings →
         </a>
       </div>

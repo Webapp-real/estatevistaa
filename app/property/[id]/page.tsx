@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import ContactForm from './ContactForm'
 
 export default async function PropertyPage({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: property } = await supabase
     .from('properties')
     .select('*, agents(*)')

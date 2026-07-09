@@ -34,8 +34,13 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   }
 
   return (
-    <Link href={`/property/${property.id}`} className="block overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <img src={property.images?.[0] ?? property.image_url ?? property.image ?? '/placeholder-home.jpg'} alt={property.title} className="h-56 w-full object-cover" />
+    <Link href={`/property/${property.id}`} className="group block overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-2 hover:shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+      <div className="relative">
+        <div className="absolute left-4 top-4 z-10 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700 shadow-sm">
+          Featured
+        </div>
+        <img src={property.images?.[0] ?? property.image_url ?? property.image ?? '/placeholder-home.jpg'} alt={property.title} className="h-60 w-full object-cover transition duration-500 group-hover:scale-105" />
+      </div>
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
           <div>

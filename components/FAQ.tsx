@@ -26,14 +26,15 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-12">
-      <h2 className="mb-8 text-center text-2xl font-bold">Frequently Asked Questions</h2>
+    <section className="mx-auto max-w-3xl px-4 py-16">
+      <h2 className="mb-2 text-center text-2xl font-bold text-slate-900">Frequently Asked Questions</h2>
+      <p className="mb-8 text-center text-gray-600">Everything you need to know before your next move</p>
       <div className="space-y-3">
         {faqs.map((faq, index) => (
-          <div key={index} className="rounded-lg border">
+          <div key={index} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
             <button
               onClick={() => setOpen(open === index ? null : index)}
-              className="flex w-full items-center justify-between p-4 text-left font-semibold"
+              className="flex w-full items-center justify-between p-4 text-left font-semibold text-slate-900"
             >
               {faq.q}
               <ChevronDown className={`transition ${open === index ? 'rotate-180' : ''}`} size={20} />

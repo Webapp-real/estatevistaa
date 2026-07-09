@@ -21,22 +21,18 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="bg-gray-50 px-4 py-12">
-      <div className="mx-auto max-w-6xl">
-        <h2 className="mb-2 text-center text-2xl font-bold">Loved by Homeowners</h2>
+    <section className="px-4 py-16">
+      <div className="mx-auto max-w-6xl rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.04)] sm:p-10">
+        <h2 className="mb-2 text-center text-2xl font-bold text-slate-900">Loved by Homeowners</h2>
         <p className="mb-8 text-center text-gray-600">Real stories from real clients</p>
         <div className="grid gap-6 md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="rounded-lg bg-white p-6 shadow-sm">
+            <div key={index} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <p className="mb-4 text-gray-700">&quot;{testimonial.text}&quot;</p>
               <div className="flex items-center gap-3">
-                <img
-                  src={testimonial.photo}
-                  alt={testimonial.name}
-                  className="h-10 w-10 rounded-full object-cover"
-                />
+                <img src={testimonial.photo} alt={testimonial.name} className="h-10 w-10 rounded-full object-cover" />
                 <div>
-                  <p className="text-sm font-semibold">{testimonial.name}</p>
+                  <p className="text-sm font-semibold text-slate-900">{testimonial.name}</p>
                   <p className="text-xs text-gray-500">{testimonial.role}</p>
                 </div>
               </div>

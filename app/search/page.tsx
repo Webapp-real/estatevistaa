@@ -7,7 +7,7 @@ export default async function Search({
 }: { 
   searchParams: { location?: string, type?: string, minPrice?: string, maxPrice?: string } 
 }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   let query = supabase.from('properties').select('*')
 
   if (searchParams.location) {

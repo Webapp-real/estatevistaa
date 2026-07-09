@@ -25,23 +25,25 @@ const features = [
 
 export default function WhyEstateVista() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
-      <h2 className="mb-2 text-center text-2xl font-bold">Why EstateVista</h2>
-      <p className="mb-10 text-center text-gray-600">The modern way to buy, sell, and invest</p>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {features.map((feature, index) => {
-          const Icon = feature.icon
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="rounded-[2rem] border border-slate-200 bg-white/80 p-8 shadow-[0_20px_60px_rgba(15,23,42,0.04)] backdrop-blur sm:p-10">
+        <h2 className="mb-2 text-center text-2xl font-bold text-slate-900">Why EstateVista</h2>
+        <p className="mb-10 text-center text-gray-600">The modern way to buy, sell, and invest</p>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, index) => {
+            const Icon = feature.icon
 
-          return (
-            <div key={index} className="text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
-                <Icon size={24} />
+            return (
+              <div key={index} className="text-center">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
+                  <Icon size={24} />
+                </div>
+                <h3 className="mb-1 font-semibold text-slate-900">{feature.title}</h3>
+                <p className="text-sm text-gray-600">{feature.desc}</p>
               </div>
-              <h3 className="mb-1 font-bold">{feature.title}</h3>
-              <p className="text-sm text-gray-600">{feature.desc}</p>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
     </section>
   )
