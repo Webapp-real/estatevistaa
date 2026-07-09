@@ -2,6 +2,10 @@ import Link from 'next/link'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import PropertyCard from '@/components/PropertyCard'
 import SearchBar from '@/components/SearchBar'
+import Testimonials from '@/components/Testimonials'
+import FAQ from '@/components/FAQ'
+import CTA from '@/components/CTA'
+import WhyEstateVista from '@/components/WhyEstateVista'
 
 export default async function HomePage() {
   const supabase = await createServerSupabaseClient()
@@ -115,6 +119,11 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      <WhyEstateVista />
+      <Testimonials />
+      <FAQ />
+      <CTA />
     </main>
   )
 }
