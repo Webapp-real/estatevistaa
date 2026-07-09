@@ -1,3 +1,5 @@
+export const runtime = 'nodejs' // Add this
+
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse } from 'next/server'
 
