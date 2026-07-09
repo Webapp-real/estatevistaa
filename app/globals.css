@@ -3,21 +3,16 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
-  --background: #f7f5f1;
-  --foreground: #0f172a;
-}
-
-html {
-  scroll-behavior: smooth;
+  --primary: #0F766E;
+  --accent: #F59E0B;
+  --dark: #1F2937;
+  --light: #F9FAFB;
 }
 
 body {
-  @apply bg-[var(--background)] text-slate-900 antialiased;
-  font-family: Inter, 'Segoe UI', sans-serif;
+  @apply bg-gray-50 text-gray-900 antialiased;
 }
 
-::selection {
-  background-color: rgba(14, 165, 233, 0.2);
-  color: #0f172a;
+.btn-primary {
+  @apply bg-teal-700 hover:bg-teal-800 text-white px-6 py-3 rounded-lg font-semibold transition;
 }

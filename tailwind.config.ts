@@ -1,27 +1,20 @@
-import type { Config } from "tailwindcss"
+import type { Config } from 'tailwindcss'
 
-const config = {
-  darkMode: ["class"],
+const config: Config = {
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  prefix: "",
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Playfair Display', 'serif'],
-      },
       colors: {
-        primary: { DEFAULT: "#0ea5e9", dark: "#0284c7", light: "#e0f2fe" },
-        secondary: "#f59e0b",
-        accent: "#6366f1",
+        primary: '#0F766E',
+        accent: '#F59E0B',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [],
+}
 
 export default config
