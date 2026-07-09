@@ -1,39 +1,66 @@
-import MortgageCalculator from '@/components/MortgageCalculator'
-import PropertyGallery from '@/components/PropertyGallery'
+import { createClient } from '@/lib/supabase/server'
+import { Bed, Bath, Ruler, MapPin } from 'lucide-react'
+import { notFound } from 'next/navigation'
+import ContactForm from './ContactForm'
 
-export default function PropertyDetailPage() {
+export default async function PropertyPage({ params }: { params: { id: string } }) {
+  const supabase = createClient()
+  const { data: property } = await supabase
+    .from('properties')
+    .select('*, agents(*)')
+    .eq('id', params.id)
+    .single()
+
+  if (!property) notFound()
+
   return (
-    <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-sky-600">Featured Listing</p>
-            <h1 className="mt-2 text-4xl font-semibold text-slate-900">Modern Coastal Estate</h1>
-            <p className="mt-3 text-slate-600">Malibu, California • 4 Beds • 3 Baths • 3,200 sqft</p>
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="md:col-span-2">
+          <img 
+            src={property.images?.[0]} 
+            alt={property.title} 
+            className="w-full h-96 object-cover rounded-lg mb-6" 
+          />
+          <h1 className="text-3xl font-bold mb-2">{property.title}</h1>
+          <p className="text-gray-600 flex items-center gap-1 mb-4">
+            <MapPin size={16} /> {property.location}
+          </p>
+          <p className="text-3xl font-bold mb-6">${property.price.toLocaleString()}</p>
+          
+          <div className="flex gap-6 mb-6 text-gray-700">
+            <span className="flex items-center gap-2"><Bed size={20} /> {property.beds} Beds</span>
+            <span className="flex items-center gap-2"><Bath size={20} /> {property.baths} Baths</span>
+            <span className="flex items-center gap-2"><Ruler size={20} /> {property.sqft.toLocaleString()} sqft</span>
           </div>
-          <div className="rounded-full bg-sky-50 px-4 py-2 text-lg font-semibold text-sky-700">$1.2M</div>
+
+          <h2 className="text-xl font-bold mb-2">Description</h2>
+          <p className="text-gray-700 mb-6">{property.description}</p>
+
+          <h2 className="text-xl font-bold mb-2">Features</h2>
+          <div className="flex flex-wrap gap-2 mb-8">
+            {property.features?.map((feature: string) => (
+              <span key={feature} className="bg-gray-100 px-3 py-1 rounded-full text-sm">{feature}</span>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-8">
-          <PropertyGallery />
-        </div>
-
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Property Overview</h2>
-            <p className="mt-4 text-slate-600">
-              This striking residence combines panoramic coastal views with bespoke interiors, a chef&apos;s kitchen, and a private terrace perfect for entertaining.
-            </p>
-          </div>
-          <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-6">
-            <h3 className="text-xl font-semibold text-slate-900">Book a tour</h3>
-            <p className="mt-3 text-sm text-slate-600">Schedule a private viewing with our team today.</p>
-            <button className="mt-6 rounded-full bg-sky-600 px-5 py-3 font-semibold text-white">Request Tour</button>
+        <div>
+          <div className="border rounded-lg p-6 sticky top-4">
+            <h3 className="font-bold text-lg mb-4">Contact Agent</h3>
+            {property.agents && (
+              <div className="flex gap-3 items-center mb-4 pb-4 border-b">
+                <img src={property.agents.photo} alt={property.agents.name} className="w-12 h-12 rounded-full object-cover" />
+                <div>
+                  <p className="font-semibold">{property.agents.name}</p>
+                  <p className="text-sm text-gray-600">{property.agents.license}</p>
+                </div>
+              </div>
+            )}
+            <ContactForm propertyId={property.id} />
           </div>
         </div>
       </div>
-
-      <MortgageCalculator />
-    </main>
+    </div>
   )
 }
