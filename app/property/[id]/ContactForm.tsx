@@ -1,25 +1,53 @@
 'use client'
-
+import { createClient } from '@/lib/supabase/client'
 import { useState } from 'react'
 
-export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false)
+export default function ContactForm({ propertyId }: { propertyId: string }) {
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+  const [sent, setSent] = useState(false)
+  const supabase = createClient()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setSubmitted(true)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await supabase.from('inquiries').insert([{...form, property_id: propertyId}])
+    setSent(true)
   }
 
+  if (sent) return <p className="text-green-600">Message sent! Agent will contact you soon.</p>
+
   return (
-    <form onSubmit={handleSubmit} className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-sm">
-      <h3 className="text-xl font-semibold text-slate-900">Contact the agent</h3>
-      <div className="mt-4 space-y-3">
-        <input className="w-full rounded-xl border border-slate-200 px-4 py-3" placeholder="Your name" />
-        <input className="w-full rounded-xl border border-slate-200 px-4 py-3" placeholder="Email address" />
-        <textarea className="min-h-28 w-full rounded-xl border border-slate-200 px-4 py-3" placeholder="Tell us about your interest" />
-      </div>
-      <button className="mt-5 rounded-full bg-sky-600 px-5 py-3 font-semibold text-white">Send Inquiry</button>
-      {submitted ? <p className="mt-4 text-sm text-emerald-600">Your inquiry has been sent.</p> : null}
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <input 
+        placeholder="Name" 
+        value={form.name} 
+        onChange={e => setForm({...form, name: e.target.value})} 
+        className="w-full border rounded px-3 py-2 text-sm" 
+        required 
+      />
+      <input 
+        type="email" 
+        placeholder="Email" 
+        value={form.email} 
+        onChange={e => setForm({...form, email: e.target.value})} 
+        className="w-full border rounded px-3 py-2 text-sm" 
+        required 
+      />
+      <input 
+        placeholder="Phone" 
+        value={form.phone} 
+        onChange={e => setForm({...form, phone: e.target.value})} 
+        className="w-full border rounded px-3 py-2 text-sm" 
+      />
+      <textarea 
+        placeholder="I'm interested in this property..." 
+        value={form.message} 
+        onChange={e => setForm({...form, message: e.target.value})} 
+        className="w-full border rounded px-3 py-2 text-sm h-20" 
+        required 
+      />
+      <button type="submit" className="w-full bg-black text-white py-2 rounded text-sm">
+        Send Message
+      </button>
     </form>
   )
 }
