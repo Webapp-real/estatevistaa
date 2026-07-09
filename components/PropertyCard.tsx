@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Bed, Bath, Ruler } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { supabase } from '@/lib/supabase/client'
 import { useState } from 'react'
 
 type PropertyCardProps = {
@@ -11,7 +11,6 @@ type PropertyCardProps = {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
   const [isFav, setIsFav] = useState(false)
-  const supabase = createClient()
 
   const toggleFavorite = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()

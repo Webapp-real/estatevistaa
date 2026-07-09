@@ -3,14 +3,13 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { supabase } from '@/lib/supabase/client'
 import { Menu, X, ChevronDown } from 'lucide-react'
 
 export default function Header() {
   const [user, setUser] = useState<any>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   useEffect(() => {
     const getUser = async () => {
