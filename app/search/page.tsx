@@ -41,7 +41,7 @@ export default function SearchPage() {
 
       <div className="grid gap-8 md:grid-cols-2">
         {properties.map((property) => (
-          <PropertyCard key={property.title} {...property} />
+          <PropertyCard key={property.title} property={property} />
         ))}
       </div>
     </main>

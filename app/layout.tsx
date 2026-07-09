@@ -1,22 +1,20 @@
-import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'EstateVista | Premium Real Estate',
-  description: 'Luxury real estate platform with AI-powered property descriptions and smart search.',
+  title: 'EstateVista - Premium Properties',
+  description: 'Luxury homes. Smart search. Seamless experience.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="min-h-screen bg-slate-50 font-sans">
+    <html lang="en">
+      <body>
         <Header />
-        {children}
+        <main className="min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   )

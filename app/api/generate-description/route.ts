@@ -1,19 +1,23 @@
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse } from 'next/server'
 
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
+
 export async function POST(request: Request) {
-  const { prompt } = await request.json()
-
   try {
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + process.env.GEMINI_API_KEY, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: `Write a luxury real estate listing description for: ${prompt}` }] }],
-      }),
-    })
+    const { title, type, beds, baths, sqft, location, features } = await request.json()
 
-    const data = await response.json()
-    const description = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'A premium property description will appear here.'
+    if (!genAI) {
+      return NextResponse.json({
+        description: 'A premium property description will appear here once Gemini is configured.',
+      })
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const prompt = `Write a compelling real estate listing description for: ${title}, a ${beds} bed ${baths} bath ${sqft} sqft ${type} in ${location}. Key features: ${features?.join(', ') || 'luxury amenities'}. Keep it under 100 words, professional tone.`
+
+    const result = await model.generateContent(prompt)
+    const description = result.response.text()
 
     return NextResponse.json({ description })
   } catch {
