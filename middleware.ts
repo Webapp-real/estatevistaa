@@ -1,3 +1,5 @@
+export const runtime = 'nodejs' // Add this line
+
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
